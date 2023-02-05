@@ -17,8 +17,6 @@ class ListUserReposUseCase {
     do {
       const reposByPage = await this.usersRepository.findRepos({ username, page });
 
-      console.log(Object.keys(reposByPage).length);
-
       repos = (page === 1) ? reposByPage : repos.concat(reposByPage);
 
       if(Object.keys(reposByPage).length < this.repos_per_page) break;
