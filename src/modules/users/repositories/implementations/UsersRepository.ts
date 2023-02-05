@@ -1,51 +1,26 @@
-require('dotenv').config();
-import axios from "axios";
-import { ErrorHandling } from "../../../../utils/ErrorHandling";
 import { Repo } from "../../entities/Repo";
-
 import { User } from "../../entities/User";
+
 import { IUsersRepository, IListUserDTO, IFindReposDTO } from "../IUsersRepository";
 
-class UsersRepository implements IUsersRepository {
-  private baseUrl: string;
+import { GitHubApiConnection } from "../../../../connections/implementations/GitHubApiConnection";
 
-  constructor() {
-    this.baseUrl = process.env.GITHUB_API_URL;
-  }
+class UsersRepository implements IUsersRepository {
+
+  constructor(private gitHubApiConnection: GitHubApiConnection) {}
 
   list({ since }: IListUserDTO):Promise<User[]> {
-    const users = axios.get(`${this.baseUrl}/users?since=${since}`)
-      .then((response) => response.data)
-      .catch((err) => {
-        ErrorHandling.throwError({
-          status: err.response.status,
-          message: err.response.data.message
-        });
-      });
+    const users = this.gitHubApiConnection.get(`/users?since=${since}`);
     return users;
   }
 
   findByUsername(username: string): Promise<User> {
-    const user = axios.get(`${this.baseUrl}/users/${username}`)
-      .then((response) => response.data)
-      .catch((err) => {
-        ErrorHandling.throwError({
-          status: err.response.status,
-          message: err.response.data.message
-        });
-      });
+    const user = this.gitHubApiConnection.get(`/users/${username}`);
     return user;
   }
 
   findRepos({ username, page }: IFindReposDTO): Promise<Repo[]> {
-    const repos = axios.get(`${this.baseUrl}/users/${username}/repos?per_page=100&page=${page}`)
-      .then((response) => response.data)
-      .catch((err) => {
-        ErrorHandling.throwError({
-          status: err.response.status,
-          message: err.response.data.message
-        });
-      });
+    const repos = this.gitHubApiConnection.get(`/users/${username}/repos?per_page=10&page=${page}`);
     return repos;
   }
 }
