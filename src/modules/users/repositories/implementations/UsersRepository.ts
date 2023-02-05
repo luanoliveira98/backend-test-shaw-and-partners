@@ -3,7 +3,7 @@ import axios from "axios";
 import { ErrorHandling } from "../../../../utils/ErrorHandling";
 
 import { User } from "../../entities/User";
-import { IUsersRepository, IListUserDTO } from "../IUserRepository";
+import { IUsersRepository, IListUserDTO } from "../IUsersRepository";
 
 class UsersRepository implements IUsersRepository {
   private baseUrl: string;

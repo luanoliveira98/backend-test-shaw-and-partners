@@ -1,5 +1,5 @@
 import { User } from "../../entities/User";
-import { IUsersRepository } from "../../repositories/IUserRepository";
+import { IUsersRepository } from "../../repositories/IUsersRepository";
 
 interface IRequest {
   since: any
