@@ -7,6 +7,7 @@ interface IRequest {
 
 class ShowUserDetailsUseCase {
   constructor(private usersRepository: IUsersRepository) {}
+
   async execute({ username }: IRequest): Promise<User> {
     const user = await this.usersRepository.findByUsername(username);
     
@@ -14,4 +15,4 @@ class ShowUserDetailsUseCase {
   }
 }
 
-export { ShowUserDetailsUseCase }
+export { ShowUserDetailsUseCase };
