@@ -15,6 +15,20 @@ class UsersRepository implements IUsersRepository {
     const users = axios.get(`${this.baseUrl}/users?since=${since}`).then((response) => response.data);
     return users;
   }
+
+  findByUsername(username: string): Promise<User> {
+    const user = axios.get(`${this.baseUrl}/users/${username}`)
+      .then((response) => response.data)
+      .catch((err) => {
+        const error = {
+          code: err.response.status,
+          message: err.response.data.message
+        }
+
+        throw error;
+      });
+    return user;
+  }
 }
 
 export { UsersRepository }
