@@ -2,7 +2,7 @@ require('dotenv').config();
 import axios from "axios";
 
 import { User } from "../../entities/User";
-import { IUsersRepository } from "../IUserRepository";
+import { IUsersRepository, IListUserDTO } from "../IUserRepository";
 
 class UsersRepository implements IUsersRepository {
   private baseUrl: string;
@@ -11,8 +11,8 @@ class UsersRepository implements IUsersRepository {
     this.baseUrl = process.env.GITHUB_API_URL;
   }
 
-  list():Promise<User[]> {
-    const users = axios.get(`${this.baseUrl}/users`).then((response) => response.data);
+  list({ since }: IListUserDTO):Promise<User[]> {
+    const users = axios.get(`${this.baseUrl}/users?since=${since}`).then((response) => response.data);
     return users;
   }
 }

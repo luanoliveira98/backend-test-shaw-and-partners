@@ -1,7 +1,10 @@
 import { User } from "../entities/User";
 
+interface IListUserDTO {
+  since: number
+}
 interface IUsersRepository {
-  list(): Promise<User[]>;
+  list({ since }: IListUserDTO): Promise<User[]>;
 }
 
-export { IUsersRepository }
+export { IUsersRepository, IListUserDTO }
