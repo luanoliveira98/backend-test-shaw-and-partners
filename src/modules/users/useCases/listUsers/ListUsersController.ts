@@ -1,14 +1,9 @@
 import { Request, Response } from "express";
 import { ListUsersUseCase } from "./ListUsersUseCase";
-
-interface IRequestQuery {
-  since: number
-}
-
 class ListUsersController {
   constructor(private listUsersUseCase: ListUsersUseCase){}
 
-  async handle(request: Request<{}, {}, {}, IRequestQuery>, response: Response): Promise<Response> {
+  async handle(request: Request, response: Response): Promise<Response> {
     const { since } = request.query;
 
     try {

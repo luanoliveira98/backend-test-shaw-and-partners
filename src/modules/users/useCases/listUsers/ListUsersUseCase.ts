@@ -2,7 +2,7 @@ import { User } from "../../entities/User";
 import { IUsersRepository } from "../../repositories/IUserRepository";
 
 interface IRequest {
-  since: number
+  since: any
 }
 
 interface IResponse {
