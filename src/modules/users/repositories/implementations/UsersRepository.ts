@@ -1,5 +1,6 @@
 require('dotenv').config();
 import axios from "axios";
+import { ErrorHandling } from "../../../../utils/ErrorHandling";
 
 import { User } from "../../entities/User";
 import { IUsersRepository, IListUserDTO } from "../IUserRepository";
@@ -12,7 +13,14 @@ class UsersRepository implements IUsersRepository {
   }
 
   list({ since }: IListUserDTO):Promise<User[]> {
-    const users = axios.get(`${this.baseUrl}/users?since=${since}`).then((response) => response.data);
+    const users = axios.get(`${this.baseUrl}/users?since=${since}`)
+      .then((response) => response.data)
+      .catch((err) => {
+        ErrorHandling.throwError({
+          status: err.response.status,
+          message: err.response.data.message
+        });
+      });
     return users;
   }
 
@@ -20,12 +28,10 @@ class UsersRepository implements IUsersRepository {
     const user = axios.get(`${this.baseUrl}/users/${username}`)
       .then((response) => response.data)
       .catch((err) => {
-        const error = {
-          code: err.response.status,
+        ErrorHandling.throwError({
+          status: err.response.status,
           message: err.response.data.message
-        }
-
-        throw error;
+        });
       });
     return user;
   }

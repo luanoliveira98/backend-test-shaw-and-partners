@@ -10,8 +10,8 @@ class ShowUserDetailsController {
     try {
       const user = await this.ShowUserDetailsUseCase.execute({ username });
       return response.json(user);
-    } catch ({ code = 500, message }) {
-      return response.status(code).json({ error: message })
+    } catch ({ status = 500, message }) {
+      return response.status(status).json({ error: message })
     }
   }
 }

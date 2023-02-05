@@ -9,8 +9,8 @@ class ListUsersController {
     try {
       const users = await this.listUsersUseCase.execute({ since });
       return response.json(users);
-    } catch ({ message }) {
-      return response.status(500).json({ error: message })
+    } catch ({ status = 500, message }) {
+      return response.status(status).json({ error: message })
     }
   }
 }
